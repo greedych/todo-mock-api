@@ -4,30 +4,40 @@ import axios from "axios";
 import Post from "../post";
 
 function PostList() {
-  const { BASE_URL } = useContext(TodoContext);
+  const { posts } = useContext(TodoContext);
 
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState(null);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const responce = await axios.get(`${BASE_URL}posts`);
-        setPosts(responce.data);
-      } catch (e) {
-        console.error(e);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     try {
+  //       const responce = await axios.get(BASE_URL);
+  //       setPosts(responce.data);
+  //       console.log(responce.data);
+  //     } catch (e) {
+  //       console.error(`Data Error ${e}`);
+  //     }
+  //   };
 
-    fetchPosts();
-  }, [BASE_URL]);
+  //   fetchPosts();
+  // }, [BASE_URL]);
 
   console.log(posts);
 
   return (
     <div>
-      {posts?.map((post) => (
-        <Post key={post.id} id={post.id} title={post.title} text={post.text} />
-      ))}
+      {posts ? (
+        posts.map((post) => (
+          <Post
+            key={post.id}
+            id={post.id}
+            title={post.title}
+            text={post.text}
+          />
+        ))
+      ) : (
+        <p>Загрузка данных...</p>
+      )}
     </div>
   );
 }
